@@ -35,7 +35,7 @@
     ${data.map(item =>
 `<div><img src="${item.image_url[3]}" /><br><br><span>Evans,
 Walker, photographer. ${item.title}. United States,
-${item.date}. Photograph. ${item.aka[1]}.</span><br><a href="'https:' + ${item.hiRes}" target="_blank">HiRes</a><br><br><br><br></div>`
+${item.date}. Photograph. ${item.aka[1]}.</span><br><a href="${item.hiRes}" target="_blank">HiRes</a><br><br><br><br></div>`
       ).join('')}
 `;
     document.body.innerHTML = m;
