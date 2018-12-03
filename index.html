@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Walker Evans For Robots</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Russell Gordon">
+</head>
+
+<body></body>
+<script>
+  // accessed [Sun, 02 Dec 2018 23:59:06 GMT]
+  // api subject to change: https://libraryofcongress.github.io/data-exploration/
+  var url, req, data, suf;
+  // get all the walker evans pics labelled with holes punched in them 
+  url = "https://www.loc.gov/photos/?q=walker%20evans%20hole%20punch&c=150&fo=json"
+  suf = 'a.tif';
+  req = new XMLHttpRequest();
+  req.responseType = 'json';
+  req.open('GET', url, true);
+  req.onload = function () {
+    data = req.response.results;
+    data = data.reduce(function (f, item) {
+      if (item.image_url.length === 4) {
+        item.hiRes = item.image_url[3].replace('service', 'master').split('v.')[0] += suf;
+        f.push(item);
+      }
+      return f;
+    }, []);
+    // console.log(data);
+    const m =
+      `<br>
+    ${data.map(item =>
+`<div><img src="${item.image_url[3]}" /><br><br><span>Evans,
+Walker, photographer. ${item.title}. United States,
+${item.date}. Photograph. ${item.aka[1]}.</span><br><a href="'https:' + ${item.hiRes}" target="_blank">HiRes</a><br><br><br><br></div>`
+      ).join('')}
+`;
+    document.body.innerHTML = m;
+  };
+  req.send(null);
+</script>
+
+</html>
